@@ -6,6 +6,66 @@
     <title>Dishes Recipes</title>
   </head>
   <body>
-    <p>The page!</p>
+    <h1>Some Amazing Recipes!</h1>
+    <div id="dishes-container"></div>
+
+    <!-- Temp script -->
+    <script>
+      fetch("/api/dishes")
+        .then((res) => res.json())
+        .then((data) => {
+          const dishesContainer = document.getElementById("dishes-container");
+          if (data.length === 0) {
+            dishesContainer.innerHTML = "<p>No dishes found :(</p>";
+          }
+          data.forEach((dish) => {
+            // Create a wrapper div with class and id
+            const dishEl = document.createElement("div");
+            dishEl.className = "dish-card";
+            dishEl.id = `dish-${dish._id}`;
+
+            // Name
+            const name = document.createElement("h3");
+            name.className = "dish-title";
+            name.textContent = dish.name;
+
+            // Origin
+            const origin = document.createElement("p");
+            origin.textContent = `Origin: ${dish.origin}`;
+
+            // Cooking Time
+            const time = document.createElement("p");
+            time.textContent = `Cooking Time: ${dish.cookingTime} minutes`;
+
+            // Difficulty
+            const difficulty = document.createElement("p");
+            difficulty.textContent = `Difficulty: ${dish.difficulty}`;
+
+            // Ingredients
+            const ingredients = document.createElement("p");
+            ingredients.textContent = `Ingredients: ${dish.ingredients.join(
+              ", "
+            )}`;
+
+            // Preparation steps
+            const steps = document.createElement("p");
+            steps.textContent = `Steps: ${dish.preparationSteps}`;
+
+            // Append all to the card
+            dishEl.appendChild(name);
+            dishEl.appendChild(origin);
+            dishEl.appendChild(time);
+            dishEl.appendChild(difficulty);
+            dishEl.appendChild(ingredients);
+            dishEl.appendChild(steps);
+
+            // Finally add card to the container
+            dishesContainer.appendChild(dishEl);
+          });
+        })
+        .catch((error) => {
+          console.error("Error fetching dishes:", error);
+        });
+    </script>
   </body>
 </html>
