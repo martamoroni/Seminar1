@@ -1,8 +1,12 @@
+// TODO: change name from update-modal to dish-modal, so it's more correct
+// TODO: make it slightly prettier
+// TODO: decide if you want to have this saved as const to use around or not (like the updateModal)
+
 const URL_API = "/api/dishes";
-// decide if you want to have this saved as const to use around or not (like the updateModal)
 const deleteModal = document.querySelector("#delete-modal");
 
 let dishIdToDelete = null; // to save it
+let modalMode = "update"; // options are update OR create
 
 async function showDishes() {
   try {
@@ -54,6 +58,7 @@ async function showDishes() {
       updateBtn.textContent = "Update";
       updateBtn.addEventListener("click", () => {
         // To fill modal with the current dish details
+        modalMode = "update";
         document.querySelector("#update-id").value = dish._id;
         document.querySelector("#update-name").value = dish.name;
         document.querySelector("#update-origin").value = dish.origin;
@@ -62,6 +67,8 @@ async function showDishes() {
         document.querySelector("#update-ingredients").value =
           dish.ingredients.join(", ");
         document.querySelector("#update-steps").value = dish.preparationSteps;
+        document.querySelector("#modal-title").textContent = "Update Dish";
+        document.querySelector("#submit-btn").textContent = "Save Changes";
         document.querySelector("#update-modal").classList.remove("hidden");
       });
       buttonsTd.appendChild(updateBtn);
@@ -92,7 +99,6 @@ document.addEventListener("DOMContentLoaded", showDishes);
 document.querySelector("#update-form").addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  // To get the values (whether changed or the current ones)
   const id = document.querySelector("#update-id").value;
   const name = document.querySelector("#update-name").value;
   const origin = document.querySelector("#update-origin").value;
@@ -104,24 +110,34 @@ document.querySelector("#update-form").addEventListener("submit", async (e) => {
     .value.split(",")
     .map((ing) => ing.trim());
 
+  const payload = {
+    name,
+    origin,
+    cookingTime,
+    difficulty,
+    preparationSteps,
+    ingredients,
+  };
+
   try {
-    await fetch(`${URL_API}/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name,
-        origin,
-        cookingTime,
-        difficulty,
-        preparationSteps,
-        ingredients,
-      }),
-    });
+    if (modalMode === "create") {
+      await fetch(URL_API, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+    } else {
+      await fetch(`${URL_API}/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+    }
 
     document.querySelector("#update-modal").classList.add("hidden");
     showDishes();
   } catch (err) {
-    console.error("Update failed:", err);
+    console.error("Save failed:", err);
   }
 });
 
@@ -139,7 +155,22 @@ document
     }
   });
 
-// To close both modals
+document.querySelector("#add-dish-btn").addEventListener("click", () => {
+  modalMode = "create";
+  document.querySelector("#update-id").value = "";
+  document.querySelector("#update-name").value = "";
+  document.querySelector("#update-origin").value = "";
+  document.querySelector("#update-time").value = "";
+  document.querySelector("#update-difficulty").value = "";
+  document.querySelector("#update-ingredients").value = "";
+  document.querySelector("#update-steps").value = "";
+
+  document.querySelector("#modal-title").textContent = "Add New Dish";
+  document.querySelector("#submit-btn").textContent = "Create";
+  document.querySelector("#update-modal").classList.remove("hidden");
+});
+
+// To close all modals
 document.querySelectorAll(".cancel-btn").forEach((btn) => {
   btn.addEventListener("click", () => {
     // closes correct modal

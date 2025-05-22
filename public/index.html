@@ -8,6 +8,9 @@
   </head>
   <body>
     <h1>Amazing Dishes!</h1>
+
+    <button id="add-dish-btn">Add New Dish</button>
+
     <table id="dishes-table">
       <thead>
         <tr>
@@ -25,7 +28,7 @@
 
     <div id="update-modal" class="modal hidden">
       <div class="modal-content">
-        <h3>Update Dish</h3>
+        <h3 id="modal-title"></h3>
         <form id="update-form">
           <input type="hidden" id="update-id" />
           <label>
@@ -52,7 +55,7 @@
             Preparation Steps:
             <textarea id="update-steps" required></textarea>
           </label>
-          <button type="submit">Save Changes</button>
+          <button type="submit" id="submit-btn"></button>
           <button type="button" class="cancel-btn">Cancel</button>
         </form>
       </div>
