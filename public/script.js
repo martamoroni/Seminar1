@@ -1,5 +1,3 @@
-// TODO: make it slightly prettier
-
 const URL_API = "/api/dishes";
 const deleteModal = document.querySelector("#delete-modal");
 const dishModal = document.querySelector("#dish-modal"); // for update and create
@@ -187,7 +185,7 @@ document.querySelector("#add-dish-btn").addEventListener("click", () => {
 // To close all modals
 document.querySelectorAll(".cancel-btn").forEach((btn) => {
   btn.addEventListener("click", () => {
-    // closes correct modal
+    // Closes correct modal
     const modal = btn.closest(".modal");
     if (modal) modal.classList.add("hidden");
   });

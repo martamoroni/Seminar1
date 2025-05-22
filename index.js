@@ -11,6 +11,7 @@ connectDB();
 const app = express();
 app.use(express.json());
 
+// Middleware to serve static files from the public folder
 app.use(express.static(path.join(__dirname, "public")));
 
 // Mount dishes API routes
