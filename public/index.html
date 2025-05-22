@@ -4,68 +4,68 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dishes Recipes</title>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <h1>Some Amazing Recipes!</h1>
-    <div id="dishes-container"></div>
+    <h1>Amazing Dishes!</h1>
+    <table id="dishes-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Origin</th>
+          <th>Time</th>
+          <th>Difficulty</th>
+          <th id="ingredients-column">Ingredients</th>
+          <th id="steps-column">Steps</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="dishes-table-body"></tbody>
+    </table>
 
-    <!-- Temp script -->
-    <script>
-      fetch("/api/dishes")
-        .then((res) => res.json())
-        .then((data) => {
-          const dishesContainer = document.getElementById("dishes-container");
-          if (data.length === 0) {
-            dishesContainer.innerHTML = "<p>No dishes found :(</p>";
-          }
-          data.forEach((dish) => {
-            // Create a wrapper div with class and id
-            const dishEl = document.createElement("div");
-            dishEl.className = "dish-card";
-            dishEl.id = `dish-${dish._id}`;
+    <div id="update-modal" class="modal hidden">
+      <div class="modal-content">
+        <h3>Update Dish</h3>
+        <form id="update-form">
+          <input type="hidden" id="update-id" />
+          <label>
+            Name:
+            <input type="text" id="update-name" required />
+          </label>
+          <label>
+            Origin:
+            <input type="text" id="update-origin" required />
+          </label>
+          <label>
+            Cooking Time (min):
+            <input type="number" id="update-time" required min="0" max="60" />
+          </label>
+          <label>
+            Difficulty:
+            <input type="text" id="update-difficulty" required />
+          </label>
+          <label>
+            Ingredients (comma-separated):
+            <input type="text" id="update-ingredients" required />
+          </label>
+          <label>
+            Preparation Steps:
+            <textarea id="update-steps" required></textarea>
+          </label>
+          <button type="submit">Save Changes</button>
+          <button type="button" class="cancel-btn">Cancel</button>
+        </form>
+      </div>
+    </div>
 
-            // Name
-            const name = document.createElement("h3");
-            name.className = "dish-title";
-            name.textContent = dish.name;
+    <div id="delete-modal" class="modal hidden">
+      <div class="modal-content">
+        <p>Are you sure you want to delete this dish?</p>
+        <button id="confirm-delete-btn">Confirm</button>
+        <button class="cancel-btn">Cancel</button>
+      </div>
+    </div>
 
-            // Origin
-            const origin = document.createElement("p");
-            origin.textContent = `Origin: ${dish.origin}`;
-
-            // Cooking Time
-            const time = document.createElement("p");
-            time.textContent = `Cooking Time: ${dish.cookingTime} minutes`;
-
-            // Difficulty
-            const difficulty = document.createElement("p");
-            difficulty.textContent = `Difficulty: ${dish.difficulty}`;
-
-            // Ingredients
-            const ingredients = document.createElement("p");
-            ingredients.textContent = `Ingredients: ${dish.ingredients.join(
-              ", "
-            )}`;
-
-            // Preparation steps
-            const steps = document.createElement("p");
-            steps.textContent = `Steps: ${dish.preparationSteps}`;
-
-            // Append all to the card
-            dishEl.appendChild(name);
-            dishEl.appendChild(origin);
-            dishEl.appendChild(time);
-            dishEl.appendChild(difficulty);
-            dishEl.appendChild(ingredients);
-            dishEl.appendChild(steps);
-
-            // Finally add card to the container
-            dishesContainer.appendChild(dishEl);
-          });
-        })
-        .catch((error) => {
-          console.error("Error fetching dishes:", error);
-        });
-    </script>
+    <script src="temp_script.js"></script>
   </body>
 </html>
