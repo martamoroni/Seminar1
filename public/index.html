@@ -26,34 +26,34 @@
       <tbody id="dishes-table-body"></tbody>
     </table>
 
-    <div id="update-modal" class="modal hidden">
+    <div id="dish-modal" class="modal hidden">
       <div class="modal-content">
         <h3 id="modal-title"></h3>
-        <form id="update-form">
-          <input type="hidden" id="update-id" />
+        <form id="dish-form">
+          <input type="hidden" id="dish-id" />
           <label>
             Name:
-            <input type="text" id="update-name" required />
+            <input type="text" id="dish-name" required />
           </label>
           <label>
             Origin:
-            <input type="text" id="update-origin" required />
+            <input type="text" id="dish-origin" required />
           </label>
           <label>
             Cooking Time (min):
-            <input type="number" id="update-time" required min="0" max="60" />
+            <input type="number" id="dish-time" required min="0" max="60" />
           </label>
           <label>
             Difficulty:
-            <input type="text" id="update-difficulty" required />
+            <input type="text" id="dish-difficulty" required />
           </label>
           <label>
             Ingredients (comma-separated):
-            <input type="text" id="update-ingredients" required />
+            <input type="text" id="dish-ingredients" required />
           </label>
           <label>
             Preparation Steps:
-            <textarea id="update-steps" required></textarea>
+            <textarea id="dish-steps" required></textarea>
           </label>
           <button type="submit" id="submit-btn"></button>
           <button type="button" class="cancel-btn">Cancel</button>

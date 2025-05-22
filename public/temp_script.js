@@ -1,4 +1,3 @@
-// TODO: change name from update-modal to dish-modal, so it's more correct
 // TODO: make it slightly prettier
 // TODO: decide if you want to have this saved as const to use around or not (like the updateModal)
 
@@ -6,7 +5,7 @@ const URL_API = "/api/dishes";
 const deleteModal = document.querySelector("#delete-modal");
 
 let dishIdToDelete = null; // to save it
-let modalMode = "update"; // options are update OR create
+let modalMode = "update"; // options are "update" OR "create"
 
 async function showDishes() {
   try {
@@ -14,7 +13,7 @@ async function showDishes() {
     const dishes = await res.json();
     const dishesTableBody = document.querySelector("#dishes-table-body");
 
-    dishesTableBody.innerHTML = ""; // Clear before inserting
+    dishesTableBody.innerHTML = ""; // clear everything before inserting
 
     dishes.forEach((dish) => {
       const dishRow = document.createElement("tr");
@@ -39,9 +38,17 @@ async function showDishes() {
       difficultyEl.textContent = dish.difficulty;
       dishRow.appendChild(difficultyEl);
 
-      // Ingredients
+      // Ingredients as bullet points
       const ingredientsEl = document.createElement("td");
-      ingredientsEl.textContent = dish.ingredients;
+      const ul = document.createElement("ul");
+
+      dish.ingredients.forEach((ingredient) => {
+        const li = document.createElement("li");
+        li.textContent = ingredient;
+        ul.appendChild(li);
+      });
+
+      ingredientsEl.appendChild(ul);
       dishRow.appendChild(ingredientsEl);
 
       // Preparation steps
@@ -59,17 +66,17 @@ async function showDishes() {
       updateBtn.addEventListener("click", () => {
         // To fill modal with the current dish details
         modalMode = "update";
-        document.querySelector("#update-id").value = dish._id;
-        document.querySelector("#update-name").value = dish.name;
-        document.querySelector("#update-origin").value = dish.origin;
-        document.querySelector("#update-time").value = dish.cookingTime;
-        document.querySelector("#update-difficulty").value = dish.difficulty;
-        document.querySelector("#update-ingredients").value =
+        document.querySelector("#dish-id").value = dish._id;
+        document.querySelector("#dish-name").value = dish.name;
+        document.querySelector("#dish-origin").value = dish.origin;
+        document.querySelector("#dish-time").value = dish.cookingTime;
+        document.querySelector("#dish-difficulty").value = dish.difficulty;
+        document.querySelector("#dish-ingredients").value =
           dish.ingredients.join(", ");
-        document.querySelector("#update-steps").value = dish.preparationSteps;
+        document.querySelector("#dish-steps").value = dish.preparationSteps;
         document.querySelector("#modal-title").textContent = "Update Dish";
         document.querySelector("#submit-btn").textContent = "Save Changes";
-        document.querySelector("#update-modal").classList.remove("hidden");
+        document.querySelector("#dish-modal").classList.remove("hidden");
       });
       buttonsTd.appendChild(updateBtn);
 
@@ -96,17 +103,17 @@ async function showDishes() {
 
 document.addEventListener("DOMContentLoaded", showDishes);
 
-document.querySelector("#update-form").addEventListener("submit", async (e) => {
+document.querySelector("#dish-form").addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const id = document.querySelector("#update-id").value;
-  const name = document.querySelector("#update-name").value;
-  const origin = document.querySelector("#update-origin").value;
-  const cookingTime = Number(document.querySelector("#update-time").value);
-  const difficulty = document.querySelector("#update-difficulty").value;
-  const preparationSteps = document.querySelector("#update-steps").value;
+  const id = document.querySelector("#dish-id").value;
+  const name = document.querySelector("#dish-name").value;
+  const origin = document.querySelector("#dish-origin").value;
+  const cookingTime = Number(document.querySelector("#dish-time").value);
+  const difficulty = document.querySelector("#dish-difficulty").value;
+  const preparationSteps = document.querySelector("#dish-steps").value;
   const ingredients = document
-    .querySelector("#update-ingredients")
+    .querySelector("#dish-ingredients")
     .value.split(",")
     .map((ing) => ing.trim());
 
@@ -134,7 +141,7 @@ document.querySelector("#update-form").addEventListener("submit", async (e) => {
       });
     }
 
-    document.querySelector("#update-modal").classList.add("hidden");
+    document.querySelector("#dish-modal").classList.add("hidden");
     showDishes();
   } catch (err) {
     console.error("Save failed:", err);
@@ -157,17 +164,17 @@ document
 
 document.querySelector("#add-dish-btn").addEventListener("click", () => {
   modalMode = "create";
-  document.querySelector("#update-id").value = "";
-  document.querySelector("#update-name").value = "";
-  document.querySelector("#update-origin").value = "";
-  document.querySelector("#update-time").value = "";
-  document.querySelector("#update-difficulty").value = "";
-  document.querySelector("#update-ingredients").value = "";
-  document.querySelector("#update-steps").value = "";
+  document.querySelector("#dish-id").value = "";
+  document.querySelector("#dish-name").value = "";
+  document.querySelector("#dish-origin").value = "";
+  document.querySelector("#dish-time").value = "";
+  document.querySelector("#dish-difficulty").value = "";
+  document.querySelector("#dish-ingredients").value = "";
+  document.querySelector("#dish-steps").value = "";
 
   document.querySelector("#modal-title").textContent = "Add New Dish";
   document.querySelector("#submit-btn").textContent = "Create";
-  document.querySelector("#update-modal").classList.remove("hidden");
+  document.querySelector("#dish-modal").classList.remove("hidden");
 });
 
 // To close all modals
