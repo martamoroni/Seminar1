@@ -1,8 +1,8 @@
 // TODO: make it slightly prettier
-// TODO: decide if you want to have this saved as const to use around or not (like the updateModal)
 
 const URL_API = "/api/dishes";
 const deleteModal = document.querySelector("#delete-modal");
+const dishModal = document.querySelector("#dish-modal"); // for update and create
 
 let dishIdToDelete = null; // to save it
 let modalMode = "update"; // options are "update" OR "create"
@@ -57,6 +57,8 @@ async function showDishes() {
       dishRow.appendChild(stepsEl);
 
       const buttonsTd = document.createElement("td");
+      const btnBox = document.createElement("div");
+      btnBox.className = "btn-box";
 
       // Update button
       const updateBtn = document.createElement("button");
@@ -76,9 +78,8 @@ async function showDishes() {
         document.querySelector("#dish-steps").value = dish.preparationSteps;
         document.querySelector("#modal-title").textContent = "Update Dish";
         document.querySelector("#submit-btn").textContent = "Save Changes";
-        document.querySelector("#dish-modal").classList.remove("hidden");
+        dishModal.classList.remove("hidden");
       });
-      buttonsTd.appendChild(updateBtn);
 
       // Delete button
       const deleteBtn = document.createElement("button");
@@ -89,7 +90,13 @@ async function showDishes() {
         dishIdToDelete = e.target.getAttribute("dish-id");
         deleteModal.classList.remove("hidden");
       });
-      buttonsTd.appendChild(deleteBtn);
+
+      // Add buttons to the box
+      btnBox.appendChild(updateBtn);
+      btnBox.appendChild(deleteBtn);
+
+      // Add box to the cell
+      buttonsTd.appendChild(btnBox);
 
       dishRow.appendChild(buttonsTd);
 
@@ -141,7 +148,7 @@ document.querySelector("#dish-form").addEventListener("submit", async (e) => {
       });
     }
 
-    document.querySelector("#dish-modal").classList.add("hidden");
+    dishModal.classList.add("hidden");
     showDishes();
   } catch (err) {
     console.error("Save failed:", err);
@@ -174,7 +181,7 @@ document.querySelector("#add-dish-btn").addEventListener("click", () => {
 
   document.querySelector("#modal-title").textContent = "Add New Dish";
   document.querySelector("#submit-btn").textContent = "Create";
-  document.querySelector("#dish-modal").classList.remove("hidden");
+  dishModal.classList.remove("hidden");
 });
 
 // To close all modals

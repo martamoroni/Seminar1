@@ -1,3 +1,84 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-wrap: pretty;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 60px;
+}
+
+button {
+  padding: 8px 14px;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: white;
+  background-color: #6a0dad;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:hover {
+  background-color: #4b0082;
+}
+
+/* Title */
+
+h1 {
+  margin-bottom: 40px;
+  font-size: 36px;
+}
+
+/* Add Dish Button */
+
+#add-dish-btn {
+  margin-bottom: 40px;
+  padding: 12px 24px;
+  font-size: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#add-dish-btn:hover {
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Table */
+#dishes-table {
+  width: 100%;
+  max-width: 1200px;
+  border-collapse: collapse;
+}
+
+#dishes-table th,
+#dishes-table td {
+  padding: 16px 20px;
+}
+
+#dishes-table thead {
+  background-color: #6a0dad;
+  color: white;
+  font-size: 20px;
+}
+
+#dishes-table tbody tr:hover {
+  background-color: #eee4ff;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+#dishes-table td {
+  font-size: 15px;
+  color: #333;
+}
+
 #steps-column {
   width: 400px;
 }
@@ -5,6 +86,16 @@
 #ingredients-column {
   width: 150px;
 }
+
+#dishes-table .btn-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  flex-direction: column;
+}
+
+/* Modals */
 
 .modal.hidden {
   display: none;
@@ -30,4 +121,14 @@
 .modal-content textarea {
   width: 100%;
   margin: 5px 0 10px;
+}
+
+#dish-modal #modal-title {
+  margin-bottom: 10px;
+  text-align: center;
+  font-size: 20px;
+}
+
+#delete-modal p {
+  margin-bottom: 10px;
 }
