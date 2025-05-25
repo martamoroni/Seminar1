@@ -8,11 +8,14 @@ router.get("/", async (req, res) => {
   try {
     // Finds all dishes in the db
     const dishes = await Dish.find();
+
     // Response with the array of dishes
     res.json(dishes);
   } catch (err) {
+    // Show error
     console.error("Error fetching dishes:", err.message);
-    res.status(500).json({ error: "Failed to fetch dishes" }); // 500: Internal Server Error
+    // 500: Internal Server Error
+    res.status(500).json({ error: "Failed to fetch dishes" });
   }
 });
 
@@ -21,6 +24,7 @@ router.get("/:name", async (req, res) => {
   try {
     // Get name from URL parameters
     const dishName = req.params.name;
+
     // Find a dish that matches the name, using .findOne()
     const dish = await Dish.findOne({ name: dishName });
 
@@ -28,11 +32,14 @@ router.get("/:name", async (req, res) => {
     if (!dish) {
       return res.status(404).json({ error: "Dish was not found" });
     }
+
     // Send dish as json
     res.json(dish);
   } catch (err) {
+    // Show error
     console.error("Error fetching dish by name:", err.message);
-    res.status(500).json({ error: "Server error" }); // 500: Internal Server Error
+    // 500: Internal Server Error
+    res.status(500).json({ error: "Server error" });
   }
 });
 
@@ -51,11 +58,13 @@ router.post("/", async (req, res) => {
 
     // Check if it already exists
     const doesDishExist = await Dish.findOne({ name }); // null or the dish
+
     // If it does, send status code 409: "Conflict"
     if (doesDishExist) {
       return res.status(409).json({ error: "Dish already exists" });
     }
 
+    // Create new dish
     const newDish = new Dish({
       name,
       ingredients,
@@ -64,13 +73,17 @@ router.post("/", async (req, res) => {
       origin,
       difficulty,
     });
+
     // Save new dish in the database
     await newDish.save();
+
     // Respond with 201 status: "Created", and the created dish as JSON
     res.status(201).json(newDish);
   } catch (err) {
+    // Show error
     console.error("Error fetching dish by name:", err.message);
-    res.status(500).json({ error: "Server error" }); // 500: Internal Server Error
+    // 500: Internal Server Error
+    res.status(500).json({ error: "Server error" });
   }
 });
 
@@ -116,8 +129,10 @@ router.put("/:id", async (req, res) => {
     // Response with the updated dish
     res.json(updatedDish);
   } catch (err) {
+    // Show error
     console.error("Error updating dish:", err.message);
-    res.status(500).json({ error: "Server error" }); // 500: Internal Server Error
+    // 500: Internal Server Error
+    res.status(500).json({ error: "Server error" });
   }
 });
 
@@ -139,8 +154,10 @@ router.delete("/:id", async (req, res) => {
       .status(200)
       .json({ message: "Dish was deleted successfully", id: req.params.id });
   } catch (err) {
+    // Show error
     console.error("Error deleting dish:", err.message);
-    res.status(500).json({ error: "Server error" }); // 500: Internal Server Error
+    // 500: Internal Server Error
+    res.status(500).json({ error: "Server error" });
   }
 });
 

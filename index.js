@@ -17,5 +17,5 @@ app.use(express.static(path.join(__dirname, "public")));
 // Mount dishes API routes
 app.use("/api/dishes", dishesRoutes);
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Web app on http://localhost:${PORT}`));
